@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cindy's Maths Resources</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #1a1a2e;
+      --ink-soft: #4a4a6a;
+      --page: #f9f8f5;
+      --white: #ffffff;
+      --accent: #3d6b9e;
+      --accent-light: #e8eff7;
+      --rule: #e2e0d8;
+      --tag-bg: #eef2f8;
+      --tag-text: #2d5580;
+      --radius: 6px;
+      --shadow: 0 1px 4px rgba(0,0,0,0.07), 0 2px 12px rgba(0,0,0,0.04);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--page);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      background: var(--white);
+      border-bottom: 1px solid var(--rule);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.25rem;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--ink-soft);
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* HERO */
+    .hero {
+      background: var(--white);
+      border-bottom: 1px solid var(--rule);
+      padding: 4rem 2rem 3.5rem;
+      text-align: center;
+    }
+    .hero-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      max-width: 680px;
+      margin: 0 auto 1.25rem;
+    }
+    .hero p {
+      font-size: 1rem;
+      color: var(--ink-soft);
+      max-width: 500px;
+      margin: 0 auto 2rem;
+    }
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--rule);
+      margin-top: 2rem;
+    }
+    .stat-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
+      color: var(--ink);
+      display: block;
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--ink-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* LAYOUT */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* FILTER BAR */
+    .filter-bar {
+      padding: 2rem 0 1rem;
+    }
+    .filter-bar h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--ink);
+    }
+    .filter-tabs {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .tab {
+      padding: 0.4rem 1rem;
+      border-radius: 100px;
+      border: 1px solid var(--rule);
+      background: var(--white);
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--ink-soft);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .tab:hover { border-color: var(--accent); color: var(--accent); }
+    .tab.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--white);
+    }
+
+    /* YEAR GROUP SECTION */
+    .year-section { margin-bottom: 3rem; }
+    .year-heading {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid var(--rule);
+    }
+    .year-label {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem;
+      color: var(--ink);
+    }
+    .year-count {
+      font-size: 0.78rem;
+      color: var(--ink-soft);
+      background: var(--tag-bg);
+      padding: 0.2rem 0.6rem;
+      border-radius: 100px;
+      font-weight: 500;
+    }
+
+    /* RESOURCE GRID */
+    .resource-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    /* RESOURCE CARD */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      box-shadow: var(--shadow);
+      transition: box-shadow 0.15s, transform 0.15s;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .card:hover {
+      box-shadow: 0 4px 20px rgba(61,107,158,0.12);
+      transform: translateY(-1px);
+    }
+    .card-topic {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .card-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.05rem;
+      line-height: 1.3;
+      color: var(--ink);
+    }
+    .card-desc {
+      font-size: 0.85rem;
+      color: var(--ink-soft);
+      line-height: 1.5;
+      flex: 1;
+    }
+    .card-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 0.25rem;
+    }
+    .card-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .tag {
+      font-size: 0.72rem;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      padding: 0.2rem 0.55rem;
+      border-radius: 100px;
+      font-weight: 500;
+    }
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      text-decoration: none;
+      border: 1px solid var(--accent-light);
+      background: var(--accent-light);
+      padding: 0.35rem 0.85rem;
+      border-radius: 100px;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .download-btn:hover {
+      background: var(--accent);
+      color: var(--white);
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      color: var(--ink-soft);
+      font-size: 0.85rem;
+      margin-top: 4rem;
+      background: var(--white);
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    /* HIDDEN UTILITY */
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">Cindy's <span>Maths</span></a>
+  <ul class="nav-links">
+    <li><a href="#resources">Resources</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <p class="hero-eyebrow">Free Maths Resources for Teachers</p>
+  <h1>Ready-to-use lesson plans & PowerPoints</h1>
+  <p>White Rose aligned resources for Years 7–9, organised by year group and topic. Download and use straight away.</p>
+  <div class="hero-stats">
+    <div>
+      <span class="stat-num">4</span>
+      <span class="stat-label">Year Groups</span>
+    </div>
+    <div>
+      <span class="stat-num">12+</span>
+      <span class="stat-label">Topics</span>
+    </div>
+    <div>
+      <span class="stat-num">Free</span>
+      <span class="stat-label">Always</span>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+
+  <div class="filter-bar" id="resources">
+    <h2>Browse resources</h2>
+    <div class="filter-tabs">
+      <button class="tab active" onclick="filterYear('all', this)">All years</button>
+      <button class="tab" onclick="filterYear('y7', this)">Year 7</button>
+      <button class="tab" onclick="filterYear('y8', this)">Year 8</button>
+      <button class="tab" onclick="filterYear('y9', this)">Year 9</button>
+    </div>
+  </div>
+
+  <!-- YEAR 7 -->
+  <div class="year-section" data-year="y7" id="section-y7">
+    <div class="year-heading">
+      <span class="year-label">Year 7</span>
+      <span class="year-count">3 resources</span>
+    </div>
+    <div class="resource-grid">
+      <div class="card">
+        <span class="card-topic">Algebra</span>
+        <div class="card-title">Forming & Solving Equations</div>
+        <p class="card-desc">From forming expressions to solving one and two-step equations with unknowns on one side.</p>
+        <div class="card-meta">
+          <div class="card-tags"><span class="tag">Lesson plan</span><span class="tag">PowerPoint</span></div>
+          <a href="#" class="download-btn">↓ Download</a>
+        </div>
+      </div>
+      <div class="card">
+        <span class="card-topic">Number</span>
+        <div class="card-title">Directed Number</div>
+        <p class="card-desc">Operations with negative numbers using number lines, temperature contexts and formal methods.</p>
+        <div class="card-meta">
+          <div class="card-tags"><span class="tag">Lesson plan</span></div>
+          <a href="#" class="download-btn">↓ Download</a>
+        </div>
+      </div>
+      <div class="card">
+        <span class="card-topic">Statistics</span>
+        <div class="card-title">Mean, Median & Mode</div>
+        <p class="card-desc">Comparing averages with real data sets. Includes discussion prompts and reasoning questions.</p>
+        <div class="card-meta">
+          <div class="card-tags"><span class="tag">PowerPoint</span><span class="tag">Worksheet</span></div>
+          <a href="#" class="download-btn">↓ Download</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- YEAR 8 -->
+  <div class="year-section" data-year="y8" id="section-y8">
+    <div class="year-heading">
+      <span class="year-label">Year 8</span>
+      <span class="year-count">3 resources</span>
+    </div>
+    <div class="resource-grid">
+      <div class="card">
+        <span class="card-topic">Algebra</span>
+        <div class="card-title">Expanding & Factorising</div>
+        <p class="card-desc">Single and double brackets, factorising into single brackets, with fluency and reasoning tasks.</p>
+        <div class="card-meta">
+          <div class="card-tags"><span class="tag">Lesson plan</span><span class="tag">PowerPoint</span></div>
+          <a href="#" class="download-btn">↓ Download</a>
+        </div>
+      </div>
+      <div class="card">
+        <span class="card-topic">Geometry</span>
+        <div class="card-title">Pythagoras' Theorem</div>
+        <p class="card-desc">Introduction to Pythagoras from square areas to finding missing sides in right-angled triangles.</p>
+        <div class="card-meta">
+          <div class="card-tags"><span class="tag">Lesson plan</span><span class="tag">Worksheet</span></div>
+          <a href="#" class="download-btn">↓ Download</a>
+        </div>
+      </div>
+      <div class="card">
+        <span class="card-topic">Probability</span>
+        <div class="card-title">Probability Scale & Outcomes</div>
+        <p class="card-desc">Experimental vs theoretical probability, sample space diagrams and relative frequency.</p>
+        <div class="card-meta">
+          <div class="card-tags"><span class="tag">PowerPoint</span></div>
+          <a href="#" class="download-btn">↓ Download</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- YEAR 9 -->
+  <div class="year-section" data-year="y9" id="section-y9">
+    <div class="year-heading">
+      <span class="year-label">Year 9</span>
+      <span class="year-count">3 resources</span>
+    </div>
+    <div class="resource-grid">
+      <div class="card">
+        <span class="card-topic">Algebra</span>
+        <div class="card-title">Simultaneous Equations</div>
+        <p class="card-desc">Solving simultaneous equations by elimination and substitution, with real-world problem contexts.</p>
+        <div class="card-meta">
+          <div class="card-tags"><span class="tag">Lesson plan</span><span class="tag">PowerPoint</span></div>
+          <a href="#" class="download-btn">↓ Download</a>
+        </div>
+      </div>
+      <div class="card">
+        <span class="card-topic">Geometry</span>
+        <div class="card-title">Circle Theorems</div>
+        <p class="card-desc">Introduction to the main circle theorems with proof-based reasoning and exam-style questions.</p>
+        <div class="card-meta">
+          <div class="card-tags"><span class="tag">Lesson plan</span><span class="tag">Worksheet</span></div>
+          <a href="#" class="download-btn">↓ Download</a>
+        </div>
+      </div>
+      <div class="card">
+        <span class="card-topic">Number</span>
+        <div class="card-title">Surds & Exact Values</div>
+        <p class="card-desc">Simplifying surds, rationalising denominators and working with exact values in calculations.</p>
+        <div class="card-meta">
+          <div class="card-tags"><span class="tag">PowerPoint</span><span class="tag">Worksheet</span></div>
+          <a href="#" class="download-btn">↓ Download</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<footer id="about">
+  <p style="margin-bottom:0.5rem;font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--ink)">Made by a teacher, for teachers.</p>
+  <p>White Rose Maths aligned resources for Years 7–9. All free to download and use in your classroom.</p>
+  <p style="margin-top:1rem"><a href="mailto:hello@cindysmaths.com" id="contact">hello@cindysmaths.com</a></p>
+</footer>
+
+<script>
+  function filterYear(year, el) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    document.querySelectorAll('.year-section').forEach(s => {
+      if (year === 'all' || s.dataset.year === year) {
+        s.classList.remove('hidden');
+      } else {
+        s.classList.add('hidden');
+      }
+    });
+  }
+</script>
+
+</body>
+</html>
